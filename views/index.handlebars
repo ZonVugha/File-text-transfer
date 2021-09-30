@@ -6,9 +6,9 @@
     </div>
     {{/if}}
 <h1>{{title}}</h1>
-    <form  method="POST" action="/api/upload" enctype="multipart/form-data">
+    <form enctype="multipart/form-data" id="uploadFileForm">
         <div class="input-group">
-            <input class="form-control" type="file" name="file" id="file">
-            <input class="btn btn-outline-secondary" type="submit" value="SUBMIT">
+            <input class="form-control" type="file" name="uploadFile" id="uploadFile">
+            <input class="btn btn-outline-secondary" type="submit" id="uploadFileBtn" value="SUBMIT">
         </div>
     </form>

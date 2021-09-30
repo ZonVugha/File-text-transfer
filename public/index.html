@@ -11,12 +11,17 @@
 </head>
 
 <body>
-    <form  method="POST" action="/pushFile" enctype="multipart/form-data">
-        <div class="input-group">
-            <input class="form-control" type="file" name="file" id="file">
-            <input class="btn btn-outline-secondary" type="submit" value="SUBMIT">
-        </div>
-    </form>
+    <main class="container">
+        <h1>Upload file</h1>
+        <form enctype="multipart/form-data" id="uploadFileForm">
+            <div class="input-group">
+                <input class="form-control" type="file" name="uploadFile" id="uploadFile">
+                <input class="btn btn-outline-secondary" type="submit" id="uploadFileBtn" value="SUBMIT">
+            </div>
+        </form>
+    </main>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>
