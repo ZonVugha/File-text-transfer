@@ -3,12 +3,12 @@ const path = require('path');
 const fs = require('fs')
 const multer = require('multer');
 
-const config = require('../config.json');
-const exp = require('constants');
 const router = express.Router();
+const config = require('../config.json');
 
 // const filePath = path.join(__dirname, 'sava/');
-const uploadMulter = multer({ dest: config.uploadFilePath });
+const maxSize = 1 * 1024 * 1024
+const uploadMulter = multer({ dest: config.uploadFilePath, limits: { fileSize: Number(config.fileMaxSize) } });
 let type = uploadMulter.single('uploadFile');
 router.post('/uploadFile', type, (req, res) => {
     console.log(req);

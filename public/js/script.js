@@ -25,4 +25,5 @@ uploadFileBtn.addEventListener('click', () => {
             uploadFileForm.reset();
 
         }
-    }})
+    }
+})

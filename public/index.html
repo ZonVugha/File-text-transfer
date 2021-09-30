@@ -12,13 +12,15 @@
 
 <body>
     <main class="container">
-        <h1>Upload file</h1>
-        <form enctype="multipart/form-data" id="uploadFileForm">
-            <div class="input-group">
-                <input class="form-control" type="file" name="uploadFile" id="uploadFile">
-                <input class="btn btn-outline-secondary" type="submit" id="uploadFileBtn" value="SUBMIT">
-            </div>
-        </form>
+        <section class="card mb-3" style="max-width: 38rem;">
+            <h2>Upload file</h2>
+            <form enctype="multipart/form-data" id="uploadFileForm">
+                <div class="card-body text-primary">
+                    <input class="form-control" type="file" name="uploadFile" id="uploadFile">
+                    <input class="btn btn-outline-secondary" style="width: 100%;" type="button" id="uploadFileBtn" value="Upload">
+                </div>
+            </form>
+        </section>
     </main>
 
     <script src="js/script.js"></script>

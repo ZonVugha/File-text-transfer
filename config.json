@@ -2,6 +2,6 @@
     "server":{
         "post":8089
     },
-    "uploadFilePath" : "D:/文档/Web/Local transmission/sava"
-
+    "uploadFilePath" : "D:/文档/Web/Local transmission/sava",
+    "fileMaxSize": "1048576"
 }
