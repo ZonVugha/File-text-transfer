@@ -21,8 +21,24 @@ router.post('/uploadFile', type, (req, res) => {
             // An unknown error occurred when uploading.
             return res.status(400).send({ Error: `error ${err}` });
         }
-        return res.status(200).send({ Success: 'upload success!' });
+        return res.status(200).send({ Success: 'upload file success!' });
     })
 });
+const typeText = uploadMulter.none();
+router.post('/uploadText', typeText, (req, res) => {
+    // console.log(req);
+    console.log(req.body.textKey);
+    typeText(req, res, (err) => {
+        if (err instanceof multer.MulterError) {
+            // A Multer error occurred when uploading.
+            return res.status(400).send({ Error: `multer error ${err}` });
+        } else if (err) {
+            // An unknown error occurred when uploading.
+            return res.status(400).send({ Error: `error ${err}` });
+        }
+        return res.status(200).send({ Success: 'upload text success!' });
+    })
+
+})
 
 module.exports = router;

@@ -8,19 +8,36 @@
     <title>index</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <main class="container">
-        <section class="card mb-3" style="max-width: 38rem;">
-            <h2>Upload file</h2>
-            <form enctype="multipart/form-data" id="uploadFileForm">
-                <div class="card-body text-primary">
-                    <input class="form-control" type="file" name="uploadFile" id="uploadFile">
-                    <input class="btn btn-outline-secondary" style="width: 100%;" type="button" id="uploadFileBtn" value="Upload">
-                </div>
-            </form>
-        </section>
+        <div class="uploadBox">
+            <section class="card mb-3" style="max-width: 38rem;">
+                <h2>Upload file</h2>
+                <form enctype="multipart/form-data" id="uploadFileForm">
+                    <div class="card-body text-primary">
+                        <input class="form-control" type="file" name="uploadFile" id="uploadFile">
+                        <input class="btn btn-outline-secondary" style="width: 100%;" type="button" id="uploadFileBtn"
+                            value="Upload">
+                    </div>
+                </form>
+            </section>
+            <section class="card mb-3" style="max-width: 38rem;">
+                <h2>Upload text</h2>
+                <form enctype="multipart/form-data" id="uploadTextForm">
+                    <div class="form-floating">
+                        <textarea class="Area" id="uploadText" placeholder="Enter the text you want to send" autocomplete="off"></textarea>
+                        <input class="btn btn-outline-secondary" style="width: 100%;" type="button" id="uploadTextBtn"
+                            value="Upload">
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div class="showBox">
+
+        </div>
     </main>
 
     <script src="js/script.js"></script>
