@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 //         title: 'Upload file'
 //     })
 // });
-app.use('/api', require('./api/upload'));
+app.use('/api', require('./api/uploadApi'));
 app.use(errorHandling);
 app.listen(config.server.post, () => {
     console.log(`server in running on ${config.server.post}`);
