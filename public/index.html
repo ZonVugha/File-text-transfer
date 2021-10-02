@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>index</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
@@ -13,8 +14,8 @@
 
 <body>
     <main class="container">
-        <div class="uploadBox">
-            <section class="card mb-3" style="max-width: 38rem;">
+        <div class="uploadBox m-2">
+            <section class="card mb-3">
                 <h2>Upload file</h2>
                 <form enctype="multipart/form-data" id="uploadFileForm">
                     <div class="card-body text-primary">
@@ -24,7 +25,7 @@
                     </div>
                 </form>
             </section>
-            <section class="card mb-3" style="max-width: 38rem;">
+            <section class="card mb-3">
                 <h2>Upload text</h2>
                 <form enctype="multipart/form-data" id="uploadTextForm">
                     <div class="form-floating">
@@ -35,41 +36,59 @@
                 </form>
             </section>
         </div>
-        <div class="downloadBox">
-            <div class="panel active" style="background-image: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80')">
+        <div class="downloadBox m-2">
+            <div class="panel active">
+                <div class="title d-flex">
+                    <span><i class="bi bi-folder"></i> File</span>
+                    <span class="ms-auto iconElement touch"><i class="bi bi-chevron-down"></i></span>
+                </div>
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
-                    <li class="list-group-item list-group-item-action">test</li>
+                    <li class="list-group-item">file<span class="float-end"><i class="bi bi-cloud-download"></i> 
+                        <i class="bi bi-trash"></i></span></li>
+                    <li class="list-group-item">file<span class="float-end"><i class="bi bi-cloud-download"></i>
+                            <i class="bi bi-trash"></i></span></li>
                 </ul>
             </div>
-            <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1572276596237-5db2c3e16c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80')">
+            <div class="panel">
+                <div class="title d-flex">
+                    <span><i class="bi bi-file-earmark-text"></i> Text</span>
+                    <span class="ms-auto iconElement"><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item textBox">
+                        <div>
+                            <div id="show" data-bs-toggle="collapse" href="#uuid" role="button" aria-expanded="false" class="d-flex">
+                                <span class="textTitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia sit nihil omnis architecto quis adipisci inventore vel earum perferendis ipsum incidunt iste deserunt, voluptatibus rerum possimus cupiditate asperiores placeat at.</span>
+                                <i class="ms-auto bi bi-chevron-down textItemChevronDown"></i>
+                            </div>
+                            <div class="float-end">
+                                <span> <i class="bi bi-files"></i>
+                                    <i class="bi bi-trash"></i></span>
+                            </div>
+                        </div>
+                            <span id="uuid" class="collapse">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis dolorem rerum consequuntur nihil, unde voluptatum odit repellat facilis in deleniti laborum harum, vel necessitatibus delectus, temporibus animi culpa velit eaque?</span>
+                    </li>
+                    <li class="list-group-item textBox">
+                        <div>
+                            <div id="show" data-bs-toggle="collapse" href="#uuid1" role="button" aria-expanded="false" class="d-flex">
+                                <span class="textTitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia sit nihil omnis architecto quis adipisci inventore vel earum perferendis ipsum incidunt iste deserunt, voluptatibus rerum possimus cupiditate asperiores placeat at.</span>
+                                <i class="ms-auto bi bi-chevron-down textItemChevronDown"></i>
+                            </div>
+                            <div class="float-end">
+                                <span> <i class="bi bi-files"></i>
+                                    <i class="bi bi-trash"></i></span>
+                            </div>
+                        </div>
+                            <span id="uuid1" class="collapse">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis dolorem rerum consequuntur nihil, unde voluptatum odit repellat facilis in deleniti laborum harum, vel necessitatibus delectus, temporibus animi culpa velit eaque?</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>
 
     <script src="js/script.js"></script>
     <script src="js/upload.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>
 
 </html>

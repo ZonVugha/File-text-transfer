@@ -1,9 +1,20 @@
 const panel = document.querySelectorAll('.panel');
-panel.forEach((item) => {
-    item.addEventListener('click', function(){
+const title = document.querySelectorAll('.title');
+
+title.forEach((item) => {
+    item.addEventListener('click', () => {
         panel.forEach((element) => {
-            element.classList.remove('active');
+            element.classList.toggle('active');
+            element.scrollTop = 0;
+            const iconElementAll = element.querySelector('.iconElement');
+            iconElementAll.classList.toggle('touch');
         })
-        item.classList.add('active')
     })
+})
+const showBtnList = document.querySelectorAll('#show');
+showBtnList.forEach((showBtn) => {
+    showBtn.addEventListener('click', () => {
+        const textItemChevronDown = showBtn.querySelector('.textItemChevronDown');
+        textItemChevronDown.classList.toggle('touch');
+    });
 })
