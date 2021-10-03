@@ -32,7 +32,6 @@ const uploadTextForm = document.querySelector('#uploadTextForm');
 const uploadText = uploadTextForm.querySelector('#uploadText');
 const uploadTextBtn = uploadTextForm.querySelector('#uploadTextBtn');
 
-const textUlUpload = document.querySelector('#textUl');
 uploadTextBtn.addEventListener('click', () => {
     let formData = new FormData();
     formData.append('textKey', uploadText.value);
@@ -43,7 +42,7 @@ uploadTextBtn.addEventListener('click', () => {
         .then(res => res.json())
         .then((result) => {
             uploadText.value = '';
-            textUlUpload.insertAdjacentHTML('afterbegin', 
+            textUl.insertAdjacentHTML('afterbegin', 
             `
             <li class="list-group-item textBox">
             <div>

@@ -21,3 +21,12 @@ function turnTextIcon() {
         });
     })
 }
+
+uploadText.addEventListener('input', () => {
+    if (Boolean(uploadText.value)) {
+        uploadTextBtn.disabled = false;
+    } else {
+        uploadTextBtn.disabled = true;
+    }
+    uploadTextBtn.disabled = true;
+})
