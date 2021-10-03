@@ -59,6 +59,7 @@ uploadTextBtn.addEventListener('click', () => {
                 <span id="${result.uuid}" class="collapse">${result.textKey}</span>
         </li>
             `);
+            turnTextIcon();
             console.log(result.Success);
         }).catch((err) => {
             console.log(err);

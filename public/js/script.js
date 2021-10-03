@@ -11,10 +11,13 @@ title.forEach((item) => {
         })
     })
 })
-const showBtnList = document.querySelectorAll('#show');
-showBtnList.forEach((showBtn) => {
-    showBtn.addEventListener('click', () => {
-        const textItemChevronDown = showBtn.querySelector('.textItemChevronDown');
-        textItemChevronDown.classList.toggle('touch');
-    });
-})
+// turn text item icon
+function turnTextIcon() {
+    const showBtnList = document.querySelectorAll('#show');
+    showBtnList.forEach((showBtn) => {
+        showBtn.addEventListener('click', () => {
+            const textItemChevronDown = showBtn.querySelector('.textItemChevronDown');
+            textItemChevronDown.classList.toggle('touch');
+        });
+    })
+}

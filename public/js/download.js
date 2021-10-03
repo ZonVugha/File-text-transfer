@@ -5,9 +5,8 @@ let getText = () => {
         .then(data => data);
 }
 const textUl = document.querySelector('#textUl');
-async function setText() {
-    let data = await getText();
-    data.text.forEach(element => {
+let setData = (getData) => {
+    getData.forEach(element => {
         textUl.insertAdjacentHTML('afterbegin',
             `
         <li class="list-group-item textBox">
@@ -25,5 +24,10 @@ async function setText() {
     </li>
         `)
     });
+}
+async function setText() {
+    let data = await getText();
+    await setData(data.text);
+    await turnTextIcon();
 }
 setText();

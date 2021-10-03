@@ -32,7 +32,7 @@ router.post('/uploadText', typeText, (req, res) => {
     console.log(req.body.textKey);
     let textAdd = {
         'textKey': req.body.textKey,
-        'uuid': "a"+uuid.v1()
+        'uuid': "t"+uuid.v1()
     }
     res.status(200).send({Success:'upload text success!',textKey:`${textAdd.textKey}`,uuid:`${textAdd.uuid}`});
     const cachePath = 'public/cacheLog/textLog.json';
