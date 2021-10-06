@@ -11,16 +11,6 @@ title.forEach((item) => {
         })
     })
 })
-// turn text item icon
-function turnTextIcon() {
-    const showBtnList = document.querySelectorAll('#show');
-    showBtnList.forEach((showBtn) => {
-        showBtn.addEventListener('click', () => {
-            const textItemChevronDown = showBtn.querySelector('.textItemChevronDown');
-            textItemChevronDown.classList.toggle('touch');
-        });
-    })
-}
 
 uploadText.addEventListener('input', () => {
     if (Boolean(uploadText.value)) {

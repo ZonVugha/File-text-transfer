@@ -50,15 +50,12 @@ uploadTextBtn.addEventListener('click', () => {
 })
 const socket = io();
 socket.on('result', (data) => {
-    console.log("test" + data.textKey);
-    console.log("test" + data.uuid);
     textUl.insertAdjacentHTML('afterbegin', 
     `
     <li class="list-group-item textBox">
     <div>
-        <div id="show" data-bs-toggle="collapse" href="#${data.uuid}" role="button" aria-expanded="false" class="d-flex">
+        <div id="show" data-bs-toggle="collapse" data-bs-target="#${data.uuid}" role="button" class="d-flex btn-toggle collapsed" aria-expanded="false">
             <span class="textTitle">${data.textKey}</span>
-            <i class="ms-auto bi bi-chevron-down textItemChevronDown"></i>
         </div>
         <div class="float-end">
             <span> <i class="bi bi-files"></i>
@@ -68,5 +65,4 @@ socket.on('result', (data) => {
         <span id="${data.uuid}" class="collapse">${data.textKey}</span>
 </li>
     `);
-    // turnTextIcon();
 })
