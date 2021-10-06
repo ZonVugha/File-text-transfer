@@ -28,5 +28,4 @@ uploadText.addEventListener('input', () => {
     } else {
         uploadTextBtn.disabled = true;
     }
-    uploadTextBtn.disabled = true;
 })

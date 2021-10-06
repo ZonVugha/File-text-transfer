@@ -1,14 +1,46 @@
 
-    {{#if message}}
-    <div style="text-align: center" class="alert alert-{{type}}">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>{{intro}}</strong> {{message}}
-    </div>
-    {{/if}}
 <h1>{{title}}</h1>
-    <form enctype="multipart/form-data" id="uploadFileForm">
-        <div class="input-group">
-            <input class="form-control" type="file" name="uploadFile" id="uploadFile">
-            <input class="btn btn-outline-secondary" type="submit" id="uploadFileBtn" value="SUBMIT">
+        <div class="uploadBox m-2">
+            <section class="card mb-3">
+                <h2>Upload file</h2>
+                <form enctype="multipart/form-data" id="uploadFileForm">
+                    <div class="card-body text-primary">
+                        <input class="form-control" type="file" name="uploadFile" id="uploadFile">
+                        <input class="btn btn-outline-secondary" style="width: 100%;" type="button" id="uploadFileBtn"
+                            value="Upload">
+                    </div>
+                </form>
+            </section>
+            <section class="card mb-3">
+                <h2>Upload text</h2>
+                <form enctype="multipart/form-data" id="uploadTextForm">
+                    <div class="form-floating">
+                        <textarea class="Area" id="uploadText" placeholder="Enter the text you want to send" autocomplete="off"></textarea>
+                        <input class="btn btn-outline-secondary" disabled style="width: 100%;" type="button" id="uploadTextBtn"
+                            value="Upload">
+                    </div>
+                </form>
+            </section>
         </div>
-    </form>
+        <div class="downloadBox m-2">
+            <div class="panel active">
+                <div class="title d-flex">
+                    <span><i class="bi bi-folder"></i> File</span>
+                    <span class="ms-auto iconElement touch"><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">file<span class="float-end"><i class="bi bi-cloud-download"></i> 
+                        <i class="bi bi-trash"></i></span></li>
+                    <li class="list-group-item">file<span class="float-end"><i class="bi bi-cloud-download"></i>
+                            <i class="bi bi-trash"></i></span></li>
+                </ul>
+            </div>
+            <div class="panel">
+                <div class="title d-flex">
+                    <span><i class="bi bi-file-earmark-text"></i> Text</span>
+                    <span class="ms-auto iconElement"><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <ul id="textUl" class="list-group">
+                </ul>
+            </div>
+        </div>
