@@ -8,7 +8,7 @@
     "dev": "nodemon app"
   },
   "author": "",
-  "license": "ISC",
+  "license": "gpl-3.0",
   "devDependencies": {
     "nodemon": "^2.0.12"
   },
