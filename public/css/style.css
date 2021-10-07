@@ -38,8 +38,15 @@ main {
   padding: 1.2rem;
   font-size: 1.8rem;
 }
+.touch {
+  transform: rotate(-90deg);
+}
 .iconElement,.textItemChevronDown{
   transition: all 0.3s ease-in;
+}
+ul li{
+  font-weight: 600;
+  color: rgba(0, 0, 0, .65);
 }
 li i{
   font-size: 1.5rem;

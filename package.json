@@ -1,11 +1,11 @@
 {
-  "name": "local-transmission",
+  "name": "file-text-transfer",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index"
+    "start": "node app.js",
+    "dev": "nodemon app"
   },
   "author": "",
   "license": "ISC",

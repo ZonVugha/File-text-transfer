@@ -1,6 +1,7 @@
 const uploadFileForm = document.querySelector('#uploadFileForm');
 const uploadFileInp = uploadFileForm.querySelector('#uploadFile');
 const uploadFileBtn = uploadFileForm.querySelector('#uploadFileBtn');
+const socket = io();
 
 // uploadFile
 uploadFileBtn.addEventListener('click', () => {
@@ -27,6 +28,13 @@ uploadFileBtn.addEventListener('click', () => {
         }
     }
 })
+socket.on('resultFile', (data) => {
+    fileUl.insertAdjacentHTML('afterbegin',
+    `
+    <li class="list-group-item">${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
+    <i class="bi bi-trash"></i></span></li>
+    `)
+})
 // upload text
 const uploadTextForm = document.querySelector('#uploadTextForm');
 const uploadText = uploadTextForm.querySelector('#uploadText');
@@ -48,8 +56,7 @@ uploadTextBtn.addEventListener('click', () => {
             console.log(err);
         });
 })
-const socket = io();
-socket.on('result', (data) => {
+socket.on('resultText', (data) => {
     textUl.insertAdjacentHTML('afterbegin', 
     `
     <li class="list-group-item textBox">

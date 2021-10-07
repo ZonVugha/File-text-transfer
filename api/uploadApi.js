@@ -3,16 +3,31 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const uuid = require('uuid');
-
 const router = express.Router();
+
 const config = require('../config.json');
 const textLog = require('../public/cacheLog/textLog.json');
-// const textLogArr = require('../sava/cacheLog/textLog');
-// const filePath = path.join(__dirname, 'sava/');
-const uploadMulter = multer({ dest: config.uploadFilePath, limits: { fileSize: Number(config.fileMaxSize) } });
+const textLogPath = 'public/cacheLog/textLog.json';
+const fileLogPath = 'public/cacheLog/fileLog.json';
+
+const filePath = path.join(__dirname, '..', 'public/', 'savaFile');//sava file path
+const uploadMulter = multer({ dest: filePath, limits: { fileSize: Number(config.fileMaxSize) } });
 let type = uploadMulter.single('uploadFile');
 router.post('/uploadFile', type, (req, res) => {
+    console.log(req.file);
+    let io = req.app.get('socketio');
 
+    io.sockets.emit('resultFile', ({originalname:`${req.file.originalname}`,fileSize:`${req.file.size}`}));
+    fs.readFile(fileLogPath, 'utf-8', (err, data) => {
+        const obj = JSON.parse(data);
+        obj.File.push(req.file);
+        const str = JSON.stringify(obj);
+        fs.writeFile(fileLogPath, str, (err) => {
+            if (err) {
+                console.log(err);
+            }
+        })
+    })
     type(req, res, (err) => {
         if (err instanceof multer.MulterError) {
             // A Multer error occurred when uploading.
@@ -25,7 +40,6 @@ router.post('/uploadFile', type, (req, res) => {
     })
 });
 const typeText = uploadMulter.none();
-
 router.post('/uploadText', typeText, (req, res) => {
     let io = req.app.get('socketio');
 
@@ -34,14 +48,13 @@ router.post('/uploadText', typeText, (req, res) => {
         'textKey': req.body.textKey,
         'uuid': "t"+uuid.v1()
     }
-    io.sockets.emit('result', ({textKey:`${textAdd.textKey}`,uuid:`${textAdd.uuid}`}));
+    io.sockets.emit('resultText', ({textKey:`${textAdd.textKey}`,uuid:`${textAdd.uuid}`}));
     // res.status(200).send({ Success: 'upload text success!', textKey: `${textAdd.textKey}`, uuid: `${textAdd.uuid}` });
-    const cachePath = 'public/cacheLog/textLog.json';
-    fs.readFile(cachePath, 'utf-8', (err, data) => {
+    fs.readFile(textLogPath, 'utf-8', (err, data) => {
         const obj = JSON.parse(data)
         obj.text.push(textAdd);
         const str = JSON.stringify(obj);
-        fs.writeFile(cachePath, str, (err) => {
+        fs.writeFile(textLogPath, str, (err) => {
             if (err) {
                 console.log(err);
             }

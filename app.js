@@ -12,18 +12,13 @@ const io = new Server(httpServer, {
 
 })
 app.use(express.static('./public'));
+app.use(express.static('./savaFile'));
 // app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 // app.set('view engine', 'handlebars');
-// app.use(cookieParser('secret'));
-// app.use(session({ cookie: { maxAge: null } }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.get('/', (req, res) => {
-//     res.render('index', {
-//         title: 'Upload file'
-//     })
-// });
 app.set('socketio',io);
 app.use('/api', require('./api/uploadApi'));
 app.use(errorHandling);
