@@ -49,13 +49,13 @@ async function setText() {
 async function setFile() {
     let data = await getText(urlFile);
     await setFileData(data.File);
+    console.log(data.File);
 }
 setText();
 setFile();
-
-function download(url, filename) {
+function download(url, filename, type) {
     fetch(url)
-        .then(response => response.blob())
+        .then(response => response.blob([response],{type:type}))
         .then(blob => {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -70,9 +70,9 @@ fileUl.addEventListener('click', async (e) => {
         let data = await getText(urlFile);
         if (e.target.id) {
             const fileInfo = data.File[e.target.id];
-            await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname);
+            await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname,fileInfo.mimetype);
         } else {
-            await download(`../savaFile/${data.File[data.File.length-1].filename}`, data.File[data.File.length-1].originalname);
+            await download(`../savaFile/${data.File[data.File.length-1].filename}`, data.File[data.File.length-1].originalname, data.File[data.File.length-1].mimetype);
         }
     }
 })
