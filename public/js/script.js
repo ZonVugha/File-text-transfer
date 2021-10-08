@@ -19,3 +19,11 @@ uploadText.addEventListener('input', () => {
         uploadTextBtn.disabled = true;
     }
 })
+
+uploadFile.addEventListener('change', () => {
+    if (uploadFile.files.length >= 1) {
+        uploadFileBtn.disabled = false;
+    } else {
+        uploadFileBtn.disabled = true;
+    }
+})  
