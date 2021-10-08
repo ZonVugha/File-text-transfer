@@ -7,7 +7,7 @@ let getText = (url) => {
 }
 const textUl = document.querySelector('#textUl');
 let setTextData = (getData) => {
-    getData.forEach(element => {
+    getData.forEach((element, index) => {
         textUl.insertAdjacentHTML('afterbegin',
             `
         <li class="list-group-item textBox">
@@ -16,7 +16,7 @@ let setTextData = (getData) => {
                     <span class="textTitle">${element.textKey}</span>
                 </div>
                 <div class="float-end">
-                    <span> <i class="bi bi-files"></i>
+                    <span> <i id=${index} class="bi bi-files"></i>
                         <i class="bi bi-trash"></i></span>
                 </div>
             </div>
@@ -68,7 +68,23 @@ function download(url, filename) {
 fileUl.addEventListener('click', async (e) => {
     if (e.target && e.target.className == 'bi bi-cloud-download') {
         let data = await getText(urlFile);
-        const fileInfo = data.File[e.target.id];
-        await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname);
+        if (e.target.id) {
+            const fileInfo = data.File[e.target.id];
+            await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname);
+        } else {
+            await download(`../savaFile/${data.File[data.File.length-1].filename}`, data.File[data.File.length-1].originalname);
+        }
+    }
+})
+
+textUl.addEventListener('click', async (e) => {
+    if (e.target && e.target.className == 'bi bi-files') {
+        let data = await getText(urlText);
+        if (e.target.id) {
+            const dataFromIndex = data.text[e.target.id].textKey;
+            navigator.clipboard.writeText(dataFromIndex);
+        } else {
+            navigator.clipboard.writeText(data.text[data.text.length-1].textKey);
+        }
     }
 })
