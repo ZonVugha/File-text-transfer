@@ -85,11 +85,33 @@ router.delete('/deleteText/:id', (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.status(200).send({Success:`delete success`});
+                res.status(200).send({Success:`delete text success`});
             }
         })
     })
-
+})
+router.delete('/deleteFile/:id', (req, res) => {
+    console.log(req.params.id);
+    fs.readFile(fileLogPath, 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+        }
+        const obj = JSON.parse(data)
+        const deleteIndex = req.params.id
+        console.log(obj.File[deleteIndex].path);
+        fs.unlink(obj.File[deleteIndex].path, (err) => {
+            console.log(err);
+        });
+        obj.File.splice(deleteIndex, 1);
+        const str = JSON.stringify(obj);
+        fs.writeFile(fileLogPath, str, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.status(200).send({Success:`delete file success`});
+            }
+        })
+    })
 })
 
 module.exports = router;

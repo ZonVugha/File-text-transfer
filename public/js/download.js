@@ -45,7 +45,7 @@ let setFileData = (getData) => {
         fileUl.insertAdjacentHTML('afterbegin',
             `
             <li class="list-group-item">${element.originalname}</br>${bytesToSize(element.size)}<span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
-            <i class="bi bi-trash"></i></span></li>
+            <i id=${index} class="bi bi-trash"></i></span></li>
             `)
     })
 }
@@ -93,6 +93,17 @@ fileUl.addEventListener('click', async (e) => {
         }
     }
 
+    if (e.target && e.target.className == 'bi bi-trash') {
+        console.log("object");
+        const element = getNthParent(e.target, 2);
+        if (e.target.id) {
+            await deleteText(`/api/deleteFile/${e.target.id}`);
+        } else {
+            const lastOne = e.currentTarget.querySelectorAll('li').length - 1;
+            await deleteText(`/api/deleteFile/${lastOne}`);
+        }
+        element.remove();
+    }
 })
 
 textUl.addEventListener('click', async (e) => {
