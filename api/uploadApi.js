@@ -72,8 +72,24 @@ router.post('/uploadText', typeText, (req, res) => {
     })
 
 })
-router.get('/uploadText', (req, res) => {
-    res.status(200).json({ data: textLog.text });
+router.delete('/deleteText/:id', (req, res) => {
+    fs.readFile(textLogPath, 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+        }
+        const obj = JSON.parse(data)
+        const deleteIndex = req.params.id
+        obj.text.splice(deleteIndex, 1);
+        const str = JSON.stringify(obj);
+        fs.writeFile(textLogPath, str, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.status(200).send({Success:`delete success`});
+            }
+        })
+    })
+
 })
 
 module.exports = router;

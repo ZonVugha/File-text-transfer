@@ -5,6 +5,13 @@ let getText = (url) => {
         .then(res => res.json())
         .then(data => data);
 }
+let deleteText = (url) => {
+    fetch(url, {
+        method: 'DELETE'
+    })
+        .then(res => res.json())
+        .then(data => console.log(data));
+}
 const textUl = document.querySelector('#textUl');
 let setTextData = (getData) => {
     getData.forEach((element, index) => {
@@ -17,7 +24,7 @@ let setTextData = (getData) => {
                 </div>
                 <div class="float-end">
                     <span> <i id=${index} class="bi bi-files"></i>
-                        <i class="bi bi-trash"></i></span>
+                        <i id=${index} class="bi bi-trash"></i></span>
                 </div>
             </div>
                 <span id="${element.uuid}" class="collapse">${element.textKey}</span>
@@ -42,6 +49,9 @@ let setFileData = (getData) => {
             `)
     })
 }
+function getNthParent(elem, n) {
+    return n === 0 ? elem : getNthParent(elem.parentNode, n - 1);
+}
 async function setText() {
     let data = await getText(urlText);
     await setTextData(data.text);
@@ -56,7 +66,7 @@ setFile();
 function download(url, filename, type) {
     const reader = new FileReader();
     fetch(url)
-        .then(response => response.blob([response],{type:type}))
+        .then(response => response.blob([response], { type: type }))
         .then(blob => {
             reader.onload = (e) => {
                 // window.location.href = reader.result;
@@ -71,27 +81,41 @@ function download(url, filename, type) {
         })
         .catch(console.error);
 }
-// click download icon download file
 fileUl.addEventListener('click', async (e) => {
+    // click download icon download file
     if (e.target && e.target.className == 'bi bi-cloud-download') {
         let data = await getText(urlFile);
         if (e.target.id) {
             const fileInfo = data.File[e.target.id];
-            await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname,fileInfo.mimetype);
+            await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname, fileInfo.mimetype);
         } else {
-            await download(`../savaFile/${data.File[data.File.length-1].filename}`, data.File[data.File.length-1].originalname, data.File[data.File.length-1].mimetype);
+            await download(`../savaFile/${data.File[data.File.length - 1].filename}`, data.File[data.File.length - 1].originalname, data.File[data.File.length - 1].mimetype);
         }
     }
+
 })
 
 textUl.addEventListener('click', async (e) => {
+    // click copy icon copy text
     if (e.target && e.target.className == 'bi bi-files') {
         let data = await getText(urlText);
         if (e.target.id) {
             const dataFromIndex = data.text[e.target.id].textKey;
             navigator.clipboard.writeText(dataFromIndex);
         } else {
-            navigator.clipboard.writeText(data.text[data.text.length-1].textKey);
+            navigator.clipboard.writeText(data.text[data.text.length - 1].textKey);
         }
+    }
+    // click text delete icon delete element and text data
+    if (e.target && e.target.className == 'bi bi-trash') {
+        console.log("delete element");
+        const element = getNthParent(e.target, 4);
+        if (e.target.id) {
+            await deleteText(`/api/deleteText/${e.target.id}`);
+        } else {
+            const lastOne = e.currentTarget.querySelectorAll('li').length - 1;
+            await deleteText(`/api/deleteText/${lastOne}`);
+        }
+        element.remove();
     }
 })
