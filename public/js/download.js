@@ -37,7 +37,7 @@ let setFileData = (getData) => {
     getData.forEach((element, index) => {
         fileUl.insertAdjacentHTML('afterbegin',
             `
-            <li class="list-group-item">${element.originalname}</br>${bytesToSize(element.size)}<span class="float-end"><i id=${index} class="bi bi-cloud-download"></i> 
+            <li class="list-group-item">${element.originalname}</br>${bytesToSize(element.size)}<span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
             <i class="bi bi-trash"></i></span></li>
             `)
     })
@@ -54,13 +54,20 @@ async function setFile() {
 setText();
 setFile();
 function download(url, filename, type) {
+    const reader = new FileReader();
     fetch(url)
         .then(response => response.blob([response],{type:type}))
         .then(blob => {
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
+            reader.onload = (e) => {
+                // window.location.href = reader.result;
+                const link = document.createElement("a");
+                link.href = reader.result;
+                link.download = filename;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+            }
+
+            reader.readAsDataURL(blob);
         })
         .catch(console.error);
 }
