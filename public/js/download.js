@@ -94,7 +94,6 @@ fileUl.addEventListener('click', async (e) => {
     }
 
     if (e.target && e.target.className == 'bi bi-trash') {
-        console.log("object");
         const element = getNthParent(e.target, 2);
         if (e.target.id) {
             await deleteText(`/api/deleteFile/${e.target.id}`);

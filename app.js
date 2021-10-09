@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.set('socketio',io);
-app.use('/api', require('./api/uploadApi'));
+app.use('/api', require('./api/routes'));
 app.use(errorHandling);
 httpServer.listen(config.server.post, () => {
     console.log(`server in running on ${config.server.post}`);

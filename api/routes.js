@@ -6,7 +6,6 @@ const uuid = require('uuid');
 const router = express.Router();
 
 const config = require('../config.json');
-const textLog = require('../public/cacheLog/textLog.json');
 const textLogPath = 'public/cacheLog/textLog.json';
 const fileLogPath = 'public/cacheLog/fileLog.json';
 
@@ -49,7 +48,6 @@ router.post('/uploadText', typeText, (req, res) => {
         'uuid': "t"+uuid.v1()
     }
     io.sockets.emit('resultText', ({textKey:`${textAdd.textKey}`,uuid:`${textAdd.uuid}`}));
-    // res.status(200).send({ Success: 'upload text success!', textKey: `${textAdd.textKey}`, uuid: `${textAdd.uuid}` });
     fs.readFile(textLogPath, 'utf-8', (err, data) => {
         const obj = JSON.parse(data)
         obj.text.push(textAdd);
