@@ -5,7 +5,7 @@ let getText = (url) => {
         .then(res => res.json())
         .then(data => data);
 }
-let deleteText = (url) => {
+let deleteData = (url) => {
     fetch(url, {
         method: 'DELETE'
     })
@@ -59,7 +59,6 @@ async function setText() {
 async function setFile() {
     let data = await getText(urlFile);
     await setFileData(data.File);
-    console.log(data.File);
 }
 setText();
 setFile();
@@ -96,10 +95,10 @@ fileUl.addEventListener('click', async (e) => {
     if (e.target && e.target.className == 'bi bi-trash') {
         const element = getNthParent(e.target, 2);
         if (e.target.id) {
-            await deleteText(`/api/deleteFile/${e.target.id}`);
+            await deleteData(`/api/deleteFile/${e.target.id}`);
         } else {
             const lastOne = e.currentTarget.querySelectorAll('li').length - 1;
-            await deleteText(`/api/deleteFile/${lastOne}`);
+            await deleteData(`/api/deleteFile/${lastOne}`);
         }
         element.remove();
     }
@@ -118,13 +117,12 @@ textUl.addEventListener('click', async (e) => {
     }
     // click text delete icon delete element and text data
     if (e.target && e.target.className == 'bi bi-trash') {
-        console.log("delete element");
         const element = getNthParent(e.target, 4);
         if (e.target.id) {
-            await deleteText(`/api/deleteText/${e.target.id}`);
+            await deleteData(`/api/deleteText/${e.target.id}`);
         } else {
             const lastOne = e.currentTarget.querySelectorAll('li').length - 1;
-            await deleteText(`/api/deleteText/${lastOne}`);
+            await deleteData(`/api/deleteText/${lastOne}`);
         }
         element.remove();
     }

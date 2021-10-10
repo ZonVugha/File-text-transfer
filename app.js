@@ -3,7 +3,7 @@ const exphbs = require('express-handlebars');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const config = require('./config.json');
-const errorHandling = require('./api/errorHandling');
+const errorHandling = require('./server/errorHandling');
 const { download } = require('express/lib/response');
 
 const app = express();
@@ -19,8 +19,8 @@ app.use(express.static('./savaFile'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.set('socketio',io);
-app.use('/api', require('./api/routes'));
+app.set('socketio', io);
+app.use('/api', require('./server/routes'));
 app.use(errorHandling);
 httpServer.listen(config.server.post, () => {
     console.log(`server in running on ${config.server.post}`);

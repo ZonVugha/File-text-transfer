@@ -1,5 +1,6 @@
 const panel = document.querySelectorAll('.panel');
 const title = document.querySelectorAll('.title');
+console.log('bugs:https://github.com/ZonVugha/File-text-transfer/issues');
 
 title.forEach((item) => {
     item.addEventListener('click', () => {

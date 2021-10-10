@@ -2,5 +2,5 @@
     "server":{
         "post":8089
     },
-    "fileMaxSize": "10485760"
+    "fileMaxSize": "209715200"
 }
