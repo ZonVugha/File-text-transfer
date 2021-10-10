@@ -76,6 +76,12 @@ li i:hover{
   flex: 5;
   overflow-y: auto;
 }
+.crop-technique1 {
+  float: left;
+  width: 3em;
+  /* margin: 0.5em 10px 0.5em 0; */
+  overflow: hidden;/*this is important*/
+}
 ::-webkit-scrollbar {
   width: 12px;
 }

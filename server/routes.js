@@ -16,7 +16,7 @@ router.post('/uploadFile', type, (req, res) => {
     console.log(req.file);
     let io = req.app.get('socketio');
 
-    io.sockets.emit('resultFile', ({originalname:`${req.file.originalname}`,fileSize:`${req.file.size}`}));
+    io.sockets.emit('resultFile', ({ originalname: `${req.file.originalname}`, fileSize: `${req.file.size}`, filename: `${req.file.filename}`, mimetype: `${req.file.mimetype}` }));
     fs.readFile(fileLogPath, 'utf-8', (err, data) => {
         const obj = JSON.parse(data);
         obj.File.push(req.file);

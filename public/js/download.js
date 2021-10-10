@@ -1,5 +1,6 @@
 const urlText = '/cacheLog/textLog.json';
 const urlFile = '/cacheLog/fileLog.json';
+const path = '../savaFile/'
 let getText = (url) => {
     return fetch(url)
         .then(res => res.json())
@@ -44,7 +45,7 @@ let setFileData = (getData) => {
     getData.forEach((element, index) => {
         fileUl.insertAdjacentHTML('afterbegin',
             `
-            <li class="list-group-item">${element.originalname}</br>${bytesToSize(element.size)}<span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
+            <li class="list-group-item">${thumbnail(path + element.filename, index, element.mimetype, element.originalname)} ${element.originalname}</br>${bytesToSize(element.size)}<span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
             <i id=${index} class="bi bi-trash"></i></span></li>
             `)
     })
@@ -62,6 +63,39 @@ async function setFile() {
 }
 setText();
 setFile();
+function thumbnail(url, index, type, filename) {
+    const reader = new FileReader();
+    const suffix = filename.lastIndexOf('.');
+    const zipFileArr = ['zip', '7z', 'rar','gz','tar','xz'];
+    if (type.search('image') != -1) {
+        fetch(url)
+            .then(res => res.blob([res], { type: type }))
+            .then(blob => {
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    const img = document.createElement('img')
+                    img.className = 'img-thumbnail'
+                    img.src = reader.result;
+                    div.className = 'crop-technique1';
+                    const liList = fileUl.querySelectorAll('li');
+                    const li = liList[liList.length - index - 1]
+                    div.appendChild(img)
+                    li.prepend(div);
+                }
+                reader.readAsDataURL(blob);
+            })
+            .catch(err => console.log(err));
+        return '';
+    } else if (zipFileArr.includes(filename.substr(suffix + 1))) {
+        return '<i class="bi bi-file-earmark-zip"></i>';
+    } else if (type.search('audio') != -1) {
+        return '<i class="bi bi-file-earmark-music"></i>';
+    } else if (type.search('text') != -1) {
+        return '<i class="bi bi-file-earmark-text"></i>';
+    } else{
+        return '<i class="bi bi-file-earmark"></i>';
+    }
+}
 function download(url, filename, type) {
     const reader = new FileReader();
     fetch(url)
@@ -86,9 +120,9 @@ fileUl.addEventListener('click', async (e) => {
         let data = await getText(urlFile);
         if (e.target.id) {
             const fileInfo = data.File[e.target.id];
-            await download(`../savaFile/${fileInfo.filename}`, fileInfo.originalname, fileInfo.mimetype);
+            await download(`${path + fileInfo.filename}`, fileInfo.originalname, fileInfo.mimetype);
         } else {
-            await download(`../savaFile/${data.File[data.File.length - 1].filename}`, data.File[data.File.length - 1].originalname, data.File[data.File.length - 1].mimetype);
+            await download(`${path + data.File[data.File.length - 1].filename}`, data.File[data.File.length - 1].originalname, data.File[data.File.length - 1].mimetype);
         }
     }
 

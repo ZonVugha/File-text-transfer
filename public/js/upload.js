@@ -31,9 +31,10 @@ uploadFileBtn.addEventListener('click', () => {
     }
 })
 socket.on('resultFile', (data) => {
+    const liList = fileUl.querySelectorAll('li');
     fileUl.insertAdjacentHTML('afterbegin',
         `
-    <li class="list-group-item">${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
+    <li class="list-group-item">${thumbnail(path + data.filename, liList.length, data.mimetype,data.originalname)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
     <i class="bi bi-trash"></i></span></li>
     `)
 })
