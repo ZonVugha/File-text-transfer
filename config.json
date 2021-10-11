@@ -1,6 +1,7 @@
 {
     "server":{
-        "post":8089
+        "post":8080,
+        "https":false
     },
     "fileMaxSize": "209715200"
 }
