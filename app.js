@@ -1,16 +1,24 @@
 const express = require('express');
-const fs = require('fs');
+const app = express();
 const exphbs = require('express-handlebars');
-// const { createServer } = require('https');
+const session = require('express-session');
+const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const { Server } = require('socket.io');
 const config = require('./config.json');
 const errorHandling = require('./server/errorHandling');
-const { download } = require('express/lib/response');
+const passport = require('passport');
 
 const credentials = { key: fs.readFileSync('server.key', 'utf8'), cert: fs.readFileSync('server.cert', 'utf8') };
-const app = express();
+
+const initializePassport = require('./server/verify');
+initializePassport.initialize(
+    passport,
+    config.private.username,
+    config.private.password
+)
+
 let runServer;
 if (config.server.https) {
     runServer = https.createServer(credentials, app);
@@ -21,20 +29,35 @@ if (config.server.https) {
 const io = new Server(runServer, {
 
 })
-app.get('/', (req, res) => {
-    res.redirect(302, '/index')
-});
-
-// app.use(express.static('./public'));
-app.use('/index', express.static('./public'))
-app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/public/login.html');
-});
-// app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-// app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// app.use(express.static('./public'));
+app.use(session({
+    secret: "tHiSiSasEcRetStr",
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.get('/', initializePassport.checkAuthenticated, (req, res) => {
+    res.redirect(302, '/index')
+});
+app.use(express.static('./public'))
+
+app.get('/login', initializePassport.checkNotAuthenticated, (req, res) => {
+    res.sendFile(__dirname + '/public/login.html');
+});
+
+app.get('/index', initializePassport.checkAuthenticated, (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+})
+app.post('/api/login',
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect('/index');
+    });
 
 app.set('socketio', io);
 app.use('/api', require('./server/routes'));

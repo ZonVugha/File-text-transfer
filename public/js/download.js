@@ -1,6 +1,6 @@
-const urlText = '/index/cacheLog/textLog.json';
-const urlFile = '/index/cacheLog/fileLog.json';
-const path = '../index/savaFile/'
+const urlText = '/cacheLog/textLog.json';
+const urlFile = '/cacheLog/fileLog.json';
+const path = '../savaFile/'
 let getText = (url) => {
     return fetch(url)
         .then(res => res.json())

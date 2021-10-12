@@ -3,5 +3,9 @@
         "post":8080,
         "https":false
     },
+    "private":{
+        "username":"username",
+        "password":"password"
+    },
     "fileMaxSize": "209715200"
 }
