@@ -4,6 +4,7 @@
         "https":false
     },
     "private":{
+        "useVerify":false,
         "username":"username",
         "password":"password"
     },

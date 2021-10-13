@@ -6,7 +6,7 @@ function initialize(passport, account, pwd) {
             if (username === account && password === pwd) {
                 return done(null, username);
             } else {
-                return done(null, false, { "message": "User not found." });
+                return done(null, false, { message: "username or password is error!" });
             }
         }
     ));
