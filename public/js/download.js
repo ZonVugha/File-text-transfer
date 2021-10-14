@@ -11,7 +11,8 @@ let deleteData = (url) => {
         method: 'DELETE'
     })
         .then(res => res.json())
-        .then(data => console.log(data));
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
 }
 const textUl = document.querySelector('#textUl');
 let setTextData = (getData) => {
@@ -66,7 +67,7 @@ setFile();
 function thumbnail(url, index, type, filename) {
     const reader = new FileReader();
     const suffix = filename.lastIndexOf('.');
-    const zipFileArr = ['zip', '7z', 'rar','gz','tar','xz'];
+    const zipFileArr = ['zip', '7z', 'rar', 'gz', 'tar', 'xz'];
     if (type.search('image') != -1) {
         fetch(url)
             .then(res => res.blob([res], { type: type }))
@@ -92,7 +93,7 @@ function thumbnail(url, index, type, filename) {
         return '<i class="bi bi-file-earmark-music"></i>';
     } else if (type.search('text') != -1) {
         return '<i class="bi bi-file-earmark-text"></i>';
-    } else{
+    } else {
         return '<i class="bi bi-file-earmark"></i>';
     }
 }
@@ -112,7 +113,7 @@ function download(url, filename, type) {
 
             reader.readAsDataURL(blob);
         })
-        .catch(console.error);
+        .catch(err => console.log(err));
 }
 fileUl.addEventListener('click', async (e) => {
     // click download icon download file

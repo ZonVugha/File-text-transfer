@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const uuid = require('uuid');
 const router = express.Router();
+const toastr = require('toastr');
 
 const config = require('../config.json');
 const textLogPath = 'public/cacheLog/textLog.json';
@@ -35,7 +36,7 @@ router.post('/uploadFile', type, (req, res) => {
             // An unknown error occurred when uploading.
             return res.status(400).send({ Error: `error ${err}` });
         }
-        return res.status(200).send({ Success: 'upload file success!' });
+        return res.status(200).send({ status: 'success', message: 'upload file success!' });
     })
 });
 const typeText = uploadMulter.none();
@@ -45,9 +46,9 @@ router.post('/uploadText', typeText, (req, res) => {
     console.log(req.body.textKey);
     let textAdd = {
         'textKey': req.body.textKey,
-        'uuid': "t"+uuid.v1()
+        'uuid': "t" + uuid.v1()
     }
-    io.sockets.emit('resultText', ({textKey:`${textAdd.textKey}`,uuid:`${textAdd.uuid}`}));
+    io.sockets.emit('resultText', ({ textKey: `${textAdd.textKey}`, uuid: `${textAdd.uuid}` }));
     fs.readFile(textLogPath, 'utf-8', (err, data) => {
         const obj = JSON.parse(data)
         obj.text.push(textAdd);
@@ -66,7 +67,7 @@ router.post('/uploadText', typeText, (req, res) => {
             // An unknown error occurred when uploading.
             return res.status(400).send({ Error: `error ${err}` });
         }
-        return res.status(200).send({ Success: 'upload text success!' });
+        return res.status(200).send({ status: 'success', message: 'upload text success!' });
     })
 
 })
@@ -83,7 +84,7 @@ router.delete('/deleteText/:id', (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.status(200).send({Success:`delete text success`});
+                res.status(200).send({ Success: `delete text success` });
             }
         })
     })
@@ -106,7 +107,7 @@ router.delete('/deleteFile/:id', (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.status(200).send({Success:`delete file success`});
+                res.status(200).send({ Success: `delete file success` });
             }
         })
     })

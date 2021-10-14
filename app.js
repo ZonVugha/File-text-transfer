@@ -11,7 +11,7 @@ const config = require('./config.json');
 const errorHandling = require('./server/errorHandling');
 const passport = require('passport');
 
-const credentials = { key: fs.readFileSync('server.key', 'utf8'), cert: fs.readFileSync('server.cert', 'utf8') };
+const credentials = { key: fs.readFileSync(config.server.key, 'utf8'), cert: fs.readFileSync(config.server.cert, 'utf8') };
 
 const initializePassport = require('./server/verify');
 const { info } = require('console');

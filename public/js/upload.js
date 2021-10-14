@@ -3,13 +3,34 @@ const uploadFileInp = uploadFileForm.querySelector('#uploadFile');
 const uploadFileBtn = uploadFileForm.querySelector('#uploadFileBtn');
 const socket = io();
 
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
 const postData = (url, data) => {
     fetch(url, {
         method: 'POST',
         body: data
     })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data);
+            toastr[data.status](data.message, data.status);
+        })
         .catch(err => console.log(err));
 }
 // uploadFile
@@ -34,7 +55,7 @@ socket.on('resultFile', (data) => {
     const liList = fileUl.querySelectorAll('li');
     fileUl.insertAdjacentHTML('afterbegin',
         `
-    <li class="list-group-item">${thumbnail(path + data.filename, liList.length, data.mimetype,data.originalname)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
+    <li class="list-group-item">${thumbnail(path + data.filename, liList.length, data.mimetype, data.originalname)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
     <i class="bi bi-trash"></i></span></li>
     `)
 })
