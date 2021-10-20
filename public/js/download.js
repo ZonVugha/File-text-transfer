@@ -87,7 +87,7 @@ function thumbnail(url, index, type, filename) {
             })
             .catch(err => console.log(err));
         return '';
-    } else if (zipFileArr.includes(filename.substr(suffix + 1))) {
+    } else if (zipFileArr.includes(filename.substring(suffix + 1))) {
         return '<i class="bi bi-file-earmark-zip"></i>';
     } else if (type.search('audio') != -1) {
         return '<i class="bi bi-file-earmark-music"></i>';
