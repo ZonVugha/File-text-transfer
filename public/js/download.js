@@ -29,7 +29,7 @@ let setTextData = (getData) => {
                         <i id=${index} class="bi bi-trash"></i></span>
                 </div>
             </div>
-                <span id="${element.uuid}" class="collapse">${element.textKey}</span>
+                <span id="${element.uuid}" class="collapse showTextWrap">${element.textKey}</span>
         </li>
         `)
     });
@@ -142,13 +142,8 @@ fileUl.addEventListener('click', async (e) => {
 textUl.addEventListener('click', async (e) => {
     // click copy icon copy text
     if (e.target && e.target.className == 'bi bi-files') {
-        let data = await getText(urlText);
-        if (e.target.id) {
-            const dataFromIndex = data.text[e.target.id].textKey;
-            navigator.clipboard.writeText(dataFromIndex);
-        } else {
-            navigator.clipboard.writeText(data.text[data.text.length - 1].textKey);
-        }
+        const getTextOnSpan = getNthParent(e.target,4).querySelector('span');
+        copyTextToClipboard(getTextOnSpan.innerHTML);
     }
     // click text delete icon delete element and text data
     if (e.target && e.target.className == 'bi bi-trash') {
@@ -162,3 +157,36 @@ textUl.addEventListener('click', async (e) => {
         element.remove();
     }
 })
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    // Hidden element
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        const successful = document.execCommand('copy');
+        successful ? toastr['success']('Copy successfully') : toastr['error']('Copy unsuccessful');
+    } catch (err) {
+        toastr['error']('Unable to copy');
+        console.error('Fallback error: Oops, unable to copy', err);
+    }
+    document.body.removeChild(textArea);
+}
+function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+    // only HTTPS
+    navigator.clipboard.writeText(text).then(function () {
+        toastr['success']('Copy successfully');
+    }, function (err) {
+        toastr['error']('Unable to copy');
+        console.error('Async error: Could not copy text', err);
+    });
+}

@@ -84,7 +84,7 @@ socket.on('resultText', (data) => {
                 <i class="bi bi-trash"></i></span>
         </div>
     </div>
-        <span id="${data.uuid}" class="collapse">${data.textKey}</span>
+        <span id="${data.uuid}" class="collapse showTextWrap">${data.textKey}</span>
 </li>
     `);
 })

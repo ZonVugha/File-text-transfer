@@ -56,7 +56,7 @@ li i:hover{
   background-color: rgba(224, 222, 222, 0.4);
   border-radius: 20px;
 }
-#showAllText {
+.showTextWrap {
   word-break: break-all;
   overflow-wrap: break-word;
 }
