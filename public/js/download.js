@@ -1,6 +1,8 @@
 const urlText = '/cacheLog/textLog.json';
 const urlFile = '/cacheLog/fileLog.json';
 const path = '../savaFile/'
+const socket = io();
+
 let getText = (url) => {
     return fetch(url)
         .then(res => res.json())
@@ -19,7 +21,7 @@ let setTextData = (getData) => {
     getData.forEach((element, index) => {
         textUl.insertAdjacentHTML('afterbegin',
             `
-        <li class="list-group-item textBox">
+        <li id="id${index}" class="list-group-item textBox">
             <div>
                 <div id="show" data-bs-toggle="collapse" data-bs-target="#${element.uuid}" role="button" class="d-flex btn-toggle collapsed" aria-expanded="false">
                     <span class="textTitle">${element.textKey}</span>
@@ -55,6 +57,7 @@ function getNthParent(elem, n) {
     return n === 0 ? elem : getNthParent(elem.parentNode, n - 1);
 }
 async function setText() {
+    // textUl.innerHTML = "";
     let data = await getText(urlText);
     await setTextData(data.text);
 }
@@ -128,35 +131,29 @@ fileUl.addEventListener('click', async (e) => {
     }
 
     if (e.target && e.target.className == 'bi bi-trash') {
-        const element = getNthParent(e.target, 2);
-        if (e.target.id) {
-            await deleteData(`/api/deleteFile/${e.target.id}`);
-        } else {
-            const lastOne = e.currentTarget.querySelectorAll('li').length - 1;
-            await deleteData(`/api/deleteFile/${lastOne}`);
-        }
-        element.remove();
+        await deleteData(`/api/deleteFile/${e.target.id}`);
     }
 })
 
 textUl.addEventListener('click', async (e) => {
     // click copy icon copy text
     if (e.target && e.target.className == 'bi bi-files') {
-        const getTextOnSpan = getNthParent(e.target,4).querySelector('span');
+        const getTextOnSpan = getNthParent(e.target, 4).querySelector('span');
         copyTextToClipboard(getTextOnSpan.innerHTML);
     }
     // click text delete icon delete element and text data
     if (e.target && e.target.className == 'bi bi-trash') {
-        const element = getNthParent(e.target, 4);
-        if (e.target.id) {
-            await deleteData(`/api/deleteText/${e.target.id}`);
-        } else {
-            const lastOne = e.currentTarget.querySelectorAll('li').length - 1;
-            await deleteData(`/api/deleteText/${lastOne}`);
-        }
-        element.remove();
+        await deleteData(`/api/deleteText/${e.target.id}`);
     }
 })
+socket.on('deleteText', () => {
+    textUl.innerHTML = "";
+    setText();
+});
+socket.on('deleteFile', () => {
+    fileUl.innerHTML = "";
+    setFile();
+});
 function fallbackCopyTextToClipboard(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;

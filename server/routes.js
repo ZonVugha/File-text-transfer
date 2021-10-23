@@ -72,6 +72,9 @@ router.post('/uploadText', typeText, (req, res) => {
 
 })
 router.delete('/deleteText/:id', (req, res) => {
+    let io = req.app.get('socketio');
+
+    io.sockets.emit('deleteText',);
     fs.readFile(textLogPath, 'utf-8', (err, data) => {
         if (err) {
             console.log(err);
@@ -91,6 +94,9 @@ router.delete('/deleteText/:id', (req, res) => {
 })
 router.delete('/deleteFile/:id', (req, res) => {
     console.log(req.params.id);
+    let io = req.app.get('socketio');
+
+    io.sockets.emit('deleteFile');
     fs.readFile(fileLogPath, 'utf-8', (err, data) => {
         if (err) {
             console.log(err);

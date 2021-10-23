@@ -56,7 +56,7 @@ socket.on('resultFile', (data) => {
     fileUl.insertAdjacentHTML('afterbegin',
         `
     <li class="list-group-item">${thumbnail(path + data.filename, liList.length, data.mimetype, data.originalname)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
-    <i class="bi bi-trash"></i></span></li>
+    <i id="${liList.length}" class="bi bi-trash"></i></span></li>
     `)
 })
 // upload text
@@ -72,6 +72,7 @@ uploadTextBtn.addEventListener('click', () => {
     uploadTextBtn.disabled = true;
 })
 socket.on('resultText', (data) => {
+    const liList = textUl.querySelectorAll('li');
     textUl.insertAdjacentHTML('afterbegin',
         `
     <li class="list-group-item textBox">
@@ -80,8 +81,8 @@ socket.on('resultText', (data) => {
             <span class="textTitle">${data.textKey}</span>
         </div>
         <div class="float-end">
-            <span> <i class="bi bi-files"></i>
-                <i class="bi bi-trash"></i></span>
+            <span> <i id="${liList.length}" class="bi bi-files"></i>
+                <i id="${liList.length}" class="bi bi-trash"></i></span>
         </div>
     </div>
         <span id="${data.uuid}" class="collapse showTextWrap">${data.textKey}</span>
