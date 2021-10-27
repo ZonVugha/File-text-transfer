@@ -35,6 +35,10 @@ const io = new Server(runServer, {
 
 })
 
+io.on("connection", (socket) => {
+    // console.log(socket.id);
+    // console.log(io.engine.clientsCount);
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());

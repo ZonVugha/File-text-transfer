@@ -13,7 +13,7 @@ let deleteData = (url) => {
         method: 'DELETE'
     })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => data)
         .catch(err => console.log(err));
 }
 const textUl = document.querySelector('#textUl');
@@ -48,8 +48,10 @@ let setFileData = (getData) => {
     getData.forEach((element, index) => {
         fileUl.insertAdjacentHTML('afterbegin',
             `
-            <li class="list-group-item">${thumbnail(path + element.filename, index, element.mimetype, element.originalname)} ${element.originalname}</br>${bytesToSize(element.size)}<span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
-            <i id=${index} class="bi bi-trash"></i></span></li>
+            <li id="F${element.filename}" class="list-group-item">${thumbnail(path + element.filename, index, element.mimetype, element.originalname)} ${element.originalname}</br>${bytesToSize(element.size)}
+            <span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
+            <i id=${index} class="bi bi-trash"></i></span>
+            </li>
             `)
     })
 }
@@ -67,6 +69,32 @@ async function setFile() {
 }
 setText();
 setFile();
+socket.on('resultText', (data) => {
+    const liList = textUl.querySelectorAll('li');
+    textUl.insertAdjacentHTML('afterbegin',
+        `
+        <li id="id${liList.length}" class="list-group-item textBox">
+        <div>
+            <div id="show" data-bs-toggle="collapse" data-bs-target="#${data.uuid}" role="button" class="d-flex btn-toggle collapsed" aria-expanded="false">
+                <span class="textTitle">${data.textKey}</span>
+            </div>
+            <div class="float-end">
+                <span> <i id="${liList.length}" class="bi bi-files"></i>
+                    <i id="${liList.length}" class="bi bi-trash"></i></span>
+            </div>
+        </div>
+            <span id="${data.uuid}" class="collapse showTextWrap">${data.textKey}</span>
+        </li>`);
+});
+socket.on('resultFile', (data) => {
+    const liList = fileUl.querySelectorAll('li');
+    fileUl.insertAdjacentHTML('afterbegin',
+        `
+        <li id="F${data.filename}" class="list-group-item">${thumbnail(path + data.filename, liList.length, data.mimetype, data.originalname)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
+        <i id="${liList.length}" class="bi bi-trash"></i></span></li>
+        `)
+});
+
 function thumbnail(url, index, type, filename) {
     const reader = new FileReader();
     const suffix = filename.lastIndexOf('.');
@@ -131,7 +159,8 @@ fileUl.addEventListener('click', async (e) => {
     }
 
     if (e.target && e.target.className == 'bi bi-trash') {
-        await deleteData(`/api/deleteFile/${e.target.id}`);
+        const deleteID = getNthParent(e.target, 2);
+        await deleteData(`/api/deleteFile/${deleteID.id}`);
     }
 })
 
@@ -143,16 +172,17 @@ textUl.addEventListener('click', async (e) => {
     }
     // click text delete icon delete element and text data
     if (e.target && e.target.className == 'bi bi-trash') {
-        await deleteData(`/api/deleteText/${e.target.id}`);
+        const deleteUUID = getNthParent(e.target, 4);
+        await deleteData(`/api/deleteText/${deleteUUID.lastElementChild.id}`);
     }
 })
-socket.on('deleteText', () => {
-    textUl.innerHTML = "";
-    setText();
+socket.on('deleteText', (data) => {
+    const deleteElement = textUl.querySelector(`#${data}`).parentNode;
+    deleteElement.remove();
 });
-socket.on('deleteFile', () => {
-    fileUl.innerHTML = "";
-    setFile();
+socket.on('deleteFile', (data) => {
+    const deleteElement = fileUl.querySelector(`#${data}`);
+    deleteElement.remove();
 });
 function fallbackCopyTextToClipboard(text) {
     const textArea = document.createElement("textarea");
