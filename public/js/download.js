@@ -1,6 +1,7 @@
 const urlText = '/cacheLog/textLog.json';
 const urlFile = '/cacheLog/fileLog.json';
-const path = '../savaFile/'
+const path = '../savaFile/';
+const pathThumbnail = '../savaFile/imgThumbnail/';
 const socket = io();
 
 let getText = (url) => {
@@ -47,12 +48,12 @@ const fileUl = document.querySelector('#fileUl');
 let setFileData = (getData) => {
     getData.forEach((element, index) => {
         fileUl.insertAdjacentHTML('afterbegin',
-            `
-            <li id="F${element.filename}" class="list-group-item">${thumbnail(path + element.filename, index, element.mimetype, element.originalname)} ${element.originalname}</br>${bytesToSize(element.size)}
-            <span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
-            <i id=${index} class="bi bi-trash"></i></span>
-            </li>
-            `)
+        `
+        <li id="F${element.filename}" class="list-group-item">${thumbnail(element.originalname, element.mimetype)} ${element.originalname}</br>${bytesToSize(element.size)}
+        <span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
+        <i id=${index} class="bi bi-trash"></i></span>
+        </li>
+        `)
     })
 }
 function getNthParent(elem, n) {
@@ -90,34 +91,16 @@ socket.on('resultFile', (data) => {
     const liList = fileUl.querySelectorAll('li');
     fileUl.insertAdjacentHTML('afterbegin',
         `
-        <li id="F${data.filename}" class="list-group-item">${thumbnail(path + data.filename, liList.length, data.mimetype, data.originalname)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
+        <li id="F${data.filename}" class="list-group-item">${thumbnail(data.originalname, data.mimetype)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
         <i id="${liList.length}" class="bi bi-trash"></i></span></li>
         `)
 });
 
-function thumbnail(url, index, type, filename) {
-    const reader = new FileReader();
+function thumbnail(filename, type) {
     const suffix = filename.lastIndexOf('.');
     const zipFileArr = ['zip', '7z', 'rar', 'gz', 'tar', 'xz'];
     if (type.search('image') != -1) {
-        fetch(url)
-            .then(res => res.blob([res], { type: type }))
-            .then(blob => {
-                reader.onload = (e) => {
-                    const div = document.createElement('div');
-                    const img = document.createElement('img')
-                    img.className = 'img-thumbnail'
-                    img.src = reader.result;
-                    div.className = 'crop-technique1';
-                    const liList = fileUl.querySelectorAll('li');
-                    const li = liList[liList.length - index - 1]
-                    div.appendChild(img)
-                    li.prepend(div);
-                }
-                reader.readAsDataURL(blob);
-            })
-            .catch(err => console.log(err));
-        return '';
+        return `<div class="crop-technique1"><img class="img-thumbnail" src="../savaFile/imgThumbnail/${filename}" alt="thumbnail image"></div>`;
     } else if (zipFileArr.includes(filename.substring(suffix + 1))) {
         return '<i class="bi bi-file-earmark-zip"></i>';
     } else if (type.search('audio') != -1) {
