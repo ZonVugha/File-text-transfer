@@ -31,12 +31,55 @@ const postData = (url, data) => {
         })
         .catch(err => console.log(err));
 }
+const progressCard = document.getElementById('progressCard');
+const progressUl = progressCard.querySelector('ul');
 // uploadFile
 uploadFileBtn.addEventListener('click', () => {
     let formData = new FormData();
     const getFile = uploadFileInp.files[0];
     formData.append('uploadFile', getFile);//key is input name value is file data
-    postData('/api/uploadFile', formData);
+    //add progress bar
+    progressUl.insertAdjacentHTML('afterbegin', `
+        <li class="list-group-item" id="liID${getFile.lastModified}">
+        <div class="card-body">
+            <span class="text-break">${getFile.name}</span>
+            <div class="d-flex align-items-center">
+                <div class="progress w-100">
+                    <div class="progress-bar" id="barID${getFile.lastModified}" role="progressbar" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <i class="bi bi-x" id="cancelBtn${getFile.lastModified}"></i>
+            </div>
+        </div>
+        </li>
+        `);
+    const progressBar = document.getElementById(`barID${getFile.lastModified}`);
+    const progressLi = document.getElementById(`liID${getFile.lastModified}`);
+    const progressCancelBtn = document.getElementById(`cancelBtn${getFile.lastModified}`);
+    const ajax = new XMLHttpRequest();
+    ajax.upload.addEventListener("progress", checkProgress, false);
+    ajax.addEventListener('load', uploadFinish, false);
+    ajax.addEventListener('abort',(e)=> {
+
+    })
+    ajax.open('POST', '/api/uploadFile');
+    ajax.send(formData);
+
+    progressCancelBtn.addEventListener('click', () => {
+        ajax.abort();
+        progressLi.remove();
+    })
+    function checkProgress(e) {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        progressBar.textContent = percent + '%';
+        progressBar.style.width = percent + '%';
+        progressBar.ariaValueNow = percent;
+    }
+    function uploadFinish(e) {
+        const data = JSON.parse(e.target.responseText);
+        toastr[data.status](data.message, data.status);
+        progressLi.remove();
+    }
     if (uploadFileInp.value) {
         try {
             uploadFileInp.value = ''; //for IE11, latest Chrome

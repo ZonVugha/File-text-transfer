@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
-        rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+        rel="stylesheet"> -->
+        <link rel="stylesheet" href="/css/toastr.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/itemstyle.css">
 
@@ -21,25 +22,33 @@
     <main class="container">
         <div class="uploadBox m-2">
             <section class="card mb-3">
-                <h2>Upload file</h2>
-                <form enctype="multipart/form-data" id="uploadFileForm">
-                    <div class="card-body text-primary">
-                        <input class="form-control" type="file" name="uploadFile" id="uploadFile">
-                        <input class="btn btn-outline-secondary" disabled style="width: 100%;" type="button"
-                            id="uploadFileBtn" value="Upload">
-                    </div>
-                </form>
+                <div class="card-body border-bottom">
+                    <h2>Upload file</h2>
+                    <form enctype="multipart/form-data" id="uploadFileForm">
+                        <div class="card-body text-primary">
+                            <input class="form-control mb-2" type="file" name="uploadFile" id="uploadFile">
+                            <input class="btn btn-outline-secondary" disabled style="width: 100%;" type="button"
+                                id="uploadFileBtn" value="Upload">
+                        </div>
+                    </form>
+                </div>
+                <div id="progressCard">
+                    <ul class="list-group">
+                    </ul>
+                </div>
             </section>
             <section class="card mb-3">
-                <h2>Upload text</h2>
-                <form enctype="multipart/form-data" id="uploadTextForm">
-                    <div class="form-floating">
-                        <textarea class="Area" id="uploadText" placeholder="Enter the text you want to send"
-                            autocomplete="off"></textarea>
-                        <input class="btn btn-outline-secondary" disabled style="width: 100%;" type="button"
-                            id="uploadTextBtn" value="Upload">
-                    </div>
-                </form>
+                <div class="card-body">
+                    <h2>Upload text</h2>
+                    <form enctype="multipart/form-data" id="uploadTextForm">
+                        <div class="form-floating">
+                            <textarea class="Area" id="uploadText" placeholder="Enter the text you want to send"
+                                autocomplete="off"></textarea>
+                            <input class="btn btn-outline-secondary" disabled style="width: 100%;" type="button"
+                                id="uploadTextBtn" value="Upload">
+                        </div>
+                    </form>
+                </div>
             </section>
         </div>
         <!-- download page -->
@@ -65,7 +74,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
     <script src="/js/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> -->
+    <script src="/js/toastr.min.js"></script>
     <script src="/js/script.js"></script>
     <script type="module" src="/js/upload.js"></script>
     <script src="/js/download.js"></script>

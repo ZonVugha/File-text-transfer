@@ -9,12 +9,14 @@ const https = require('https');
 const { Server } = require('socket.io');
 const config = require('./config.json');
 const errorHandling = require('./server/errorHandling');
+const clearCache = require('./server/clearCache');
 const passport = require('passport');
+const cron = require('node-cron');
 
 let credentials;
-if(config.server.https){
-  credentials = { key: fs.readFileSync(config.server.key, 'utf8'), cert: fs.readFileSync(config.server.cert, 'utf8') };
-   }
+if (config.server.https) {
+    credentials = { key: fs.readFileSync(config.server.key, 'utf8'), cert: fs.readFileSync(config.server.cert, 'utf8') };
+}
 
 const initializePassport = require('./server/verify');
 const { info } = require('console');
@@ -70,11 +72,12 @@ if (!config.private.useVerify) {
     app.post('/api/login',
         passport.authenticate('local', { successRedirect: '/index', failureRedirect: '/login', failureFlash: true }));
 }
-
 app.set('socketio', io);
 app.use('/api', require('./server/routes'));
 app.use(errorHandling);
-
+cron.schedule('* * * * *', () => {
+    clearCache();
+});
 runServer.listen(config.server.post, () => {
     console.log(`server in running on ${config.server.post}`);
 })

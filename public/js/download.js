@@ -48,7 +48,7 @@ const fileUl = document.querySelector('#fileUl');
 let setFileData = (getData) => {
     getData.forEach((element, index) => {
         fileUl.insertAdjacentHTML('afterbegin',
-        `
+            `
         <li id="F${element.filename}" class="list-group-item">${thumbnail(element.originalname, element.mimetype)} ${element.originalname}</br>${bytesToSize(element.size)}
         <span class="float-end"><i id=${index} class="bi bi-cloud-download"></i>
         <i id=${index} class="bi bi-trash"></i></span>
@@ -111,23 +111,12 @@ function thumbnail(filename, type) {
         return '<i class="bi bi-file-earmark"></i>';
     }
 }
-function download(url, filename, type) {
-    const reader = new FileReader();
-    fetch(url)
-        .then(response => response.blob([response], { type: type }))
-        .then(blob => {
-            reader.onload = (e) => {
-                // window.location.href = reader.result;
-                const link = document.createElement("a");
-                link.href = reader.result;
-                link.download = filename;
-                link.click();
-                window.URL.revokeObjectURL(link.href);
-            }
-
-            reader.readAsDataURL(blob);
-        })
-        .catch(err => console.log(err));
+function download(url, filename) {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    window.URL.revokeObjectURL(link.href);
 }
 fileUl.addEventListener('click', async (e) => {
     // click download icon download file
@@ -135,9 +124,9 @@ fileUl.addEventListener('click', async (e) => {
         let data = await getText(urlFile);
         if (e.target.id) {
             const fileInfo = data.File[e.target.id];
-            await download(`${path + fileInfo.filename}`, fileInfo.originalname, fileInfo.mimetype);
+            await download(`${path + fileInfo.filename}`, fileInfo.originalname);
         } else {
-            await download(`${path + data.File[data.File.length - 1].filename}`, data.File[data.File.length - 1].originalname, data.File[data.File.length - 1].mimetype);
+            await download(`${path + data.File[data.File.length - 1].filename}`, data.File[data.File.length - 1].originalname);
         }
     }
 

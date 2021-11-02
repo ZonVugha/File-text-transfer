@@ -11,7 +11,7 @@ const textLogPath = 'public/cacheLog/textLog.json';
 const fileLogPath = 'public/cacheLog/fileLog.json';
 const fileLogThumbnail = 'public/cacheLog/fileLogThumbnail.json'
 const filePath = path.join(__dirname, '..', 'public/', 'savaFile');//sava file path
-
+const imgThumbnailPath = path.join(__dirname, '..', 'public/', 'savaFile/', 'imgThumbnail/');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, filePath);
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 const uploadMulter = multer({ storage: storage, limits: { fileSize: Number(config.fileMaxSize) } });
 let type = uploadMulter.single('uploadFile');
 router.post('/uploadFile', type, (req, res) => {
-    sharp(req.file.path).resize(200, 200).toFile(path.join(__dirname, '..', 'public/', 'savaFile/', 'imgThumbnail/') + req.file.originalname, (err, resizeImage) => {
+    sharp(req.file.path).resize(200, 200).toFile(imgThumbnailPath + req.file.originalname, (err, resizeImage) => {
         let io = req.app.get('socketio');
         io.sockets.emit('resultFile', ({ originalname: `${req.file.originalname}`, fileSize: `${req.file.size}`, filename: `${req.file.filename}`, mimetype: `${req.file.mimetype}` }));
         if (err) {
