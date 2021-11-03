@@ -7,11 +7,16 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const { Server } = require('socket.io');
+const passport = require('passport');
+const cron = require('node-cron');
+const path = require('path');
+
 const config = require('./config.json');
 const errorHandling = require('./server/errorHandling');
 const clearCache = require('./server/clearCache');
-const passport = require('passport');
-const cron = require('node-cron');
+
+fs.promises.mkdir(path.join(__dirname, 'public/', 'cache/', 'savaFile/'), { recursive: true });
+fs.promises.mkdir(path.join(__dirname, 'public/', 'cache/', 'imgThumbnail/'), { recursive: true });
 
 let credentials;
 if (config.server.https) {
@@ -19,7 +24,6 @@ if (config.server.https) {
 }
 
 const initializePassport = require('./server/verify');
-const { info } = require('console');
 initializePassport.initialize(
     passport,
     config.private.username,
@@ -75,8 +79,12 @@ if (!config.private.useVerify) {
 app.set('socketio', io);
 app.use('/api', require('./server/routes'));
 app.use(errorHandling);
-cron.schedule('* * * * *', () => {
+cron.schedule('0 0 * * *', () => {
     clearCache();
+    console.log('clear on ' + new Date().getHours() + ":" + new Date().getMinutes());
+}, {
+    scheduled: true,
+    timezone: 'Asia/Shanghai'
 });
 runServer.listen(config.server.post, () => {
     console.log(`server in running on ${config.server.post}`);

@@ -16,7 +16,7 @@ main {
 .downloadBox {
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 98vh;
   flex: 1 auto;
 }
 .panel {

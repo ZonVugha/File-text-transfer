@@ -9,13 +9,26 @@ const router = express.Router();
 const config = require('../config.json');
 const textLogPath = 'public/cacheLog/textLog.json';
 const fileLogPath = 'public/cacheLog/fileLog.json';
-const fileLogThumbnail = 'public/cacheLog/fileLogThumbnail.json'
-const filePath = path.join(__dirname, '..', 'public/', 'savaFile');//sava file path
-const imgThumbnailPath = path.join(__dirname, '..', 'public/', 'savaFile/', 'imgThumbnail/');
+const filePath = path.join(__dirname, '..', 'public/', 'cache/', 'savaFile/');//sava file path
+const imgThumbnailPath = path.join(__dirname, '..', 'public/', 'cache/', 'imgThumbnail/');//sava thumbnail path
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, filePath);
     },
+    filename: (req, file, cb) => {
+        const fileName = file.fieldname + Date.now();
+        cb(null, fileName);
+        req.on('aborted', () => {
+            file.stream.on('end', () => {
+                fs.unlink(filePath+fileName, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+            })
+            file.stream.emit('end');
+        })
+    }
 });
 const uploadMulter = multer({ storage: storage, limits: { fileSize: Number(config.fileMaxSize) } });
 let type = uploadMulter.single('uploadFile');

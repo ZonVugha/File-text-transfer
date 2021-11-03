@@ -1,7 +1,7 @@
 const urlText = '/cacheLog/textLog.json';
 const urlFile = '/cacheLog/fileLog.json';
-const path = '../savaFile/';
-const pathThumbnail = '../savaFile/imgThumbnail/';
+const path = '../cache/savaFile/';
+const pathThumbnail = '../cache/imgThumbnail/';
 const socket = io();
 
 let getText = (url) => {
@@ -100,7 +100,7 @@ function thumbnail(filename, type) {
     const suffix = filename.lastIndexOf('.');
     const zipFileArr = ['zip', '7z', 'rar', 'gz', 'tar', 'xz'];
     if (type.search('image') != -1) {
-        return `<div class="crop-technique1"><img class="img-thumbnail" src="../savaFile/imgThumbnail/${filename}" alt="thumbnail image"></div>`;
+        return `<div class="crop-technique1"><img class="img-thumbnail" src="${pathThumbnail}${filename}" alt="img"></div>`;
     } else if (zipFileArr.includes(filename.substring(suffix + 1))) {
         return '<i class="bi bi-file-earmark-zip"></i>';
     } else if (type.search('audio') != -1) {
@@ -122,6 +122,7 @@ fileUl.addEventListener('click', async (e) => {
     // click download icon download file
     if (e.target && e.target.className == 'bi bi-cloud-download') {
         let data = await getText(urlFile);
+        // console.log(getNthParent(e.target,2));
         if (e.target.id) {
             const fileInfo = data.File[e.target.id];
             await download(`${path + fileInfo.filename}`, fileInfo.originalname);
