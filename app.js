@@ -80,7 +80,7 @@ app.set('socketio', io);
 app.use('/api', require('./server/routes'));
 app.use(errorHandling);
 cron.schedule('0 0 * * *', () => {
-    clearCache();
+    clearCache();//Delete cache every day at midnight
     console.log('clear on ' + new Date().getHours() + ":" + new Date().getMinutes());
 }, {
     scheduled: true,

@@ -59,9 +59,6 @@ uploadFileBtn.addEventListener('click', () => {
     const ajax = new XMLHttpRequest();
     ajax.upload.addEventListener("progress", checkProgress, false);
     ajax.addEventListener('load', uploadFinish, false);
-    ajax.addEventListener('abort',(e)=> {
-
-    })
     ajax.open('POST', '/api/uploadFile');
     ajax.send(formData);
 

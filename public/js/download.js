@@ -60,7 +60,6 @@ function getNthParent(elem, n) {
     return n === 0 ? elem : getNthParent(elem.parentNode, n - 1);
 }
 async function setText() {
-    // textUl.innerHTML = "";
     let data = await getText(urlText);
     await setTextData(data.text);
 }
@@ -91,7 +90,7 @@ socket.on('resultFile', (data) => {
     const liList = fileUl.querySelectorAll('li');
     fileUl.insertAdjacentHTML('afterbegin',
         `
-        <li id="F${data.filename}" class="list-group-item">${thumbnail(data.originalname, data.mimetype)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i class="bi bi-cloud-download"></i> 
+        <li id="F${data.filename}" class="list-group-item">${thumbnail(data.originalname, data.mimetype)} ${data.originalname}</br>${bytesToSize(data.fileSize)}<span class="float-end"><i id="${liList.length}" class="bi bi-cloud-download"></i> 
         <i id="${liList.length}" class="bi bi-trash"></i></span></li>
         `)
 });
@@ -122,13 +121,8 @@ fileUl.addEventListener('click', async (e) => {
     // click download icon download file
     if (e.target && e.target.className == 'bi bi-cloud-download') {
         let data = await getText(urlFile);
-        // console.log(getNthParent(e.target,2));
-        if (e.target.id) {
-            const fileInfo = data.File[e.target.id];
-            await download(`${path + fileInfo.filename}`, fileInfo.originalname);
-        } else {
-            await download(`${path + data.File[data.File.length - 1].filename}`, data.File[data.File.length - 1].originalname);
-        }
+        const fileInfo = data.File[e.target.id];
+        await download(`${path + fileInfo.filename}`, fileInfo.originalname);
     }
 
     if (e.target && e.target.className == 'bi bi-trash') {
